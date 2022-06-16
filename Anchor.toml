@@ -11,7 +11,7 @@
 [features]
 seeds = false
 [programs.localnet]
-ming_jing = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+ming_jing = "5q1C1Xk4d45nEsNFR19ZXwjXFKZgKkSpkDy1yH8hQwFZ"
 
 [registry]
 url = "https://anchor.projectserum.com"

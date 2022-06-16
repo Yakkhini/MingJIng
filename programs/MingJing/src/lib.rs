@@ -12,7 +12,7 @@ See the Mulan PSL v2 for more details.
 
 use anchor_lang::prelude::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("5q1C1Xk4d45nEsNFR19ZXwjXFKZgKkSpkDy1yH8hQwFZ");
 
 #[program]
 pub mod ming_jing {
