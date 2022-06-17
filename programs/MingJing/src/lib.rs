@@ -25,23 +25,35 @@ declare_id!("5q1C1Xk4d45nEsNFR19ZXwjXFKZgKkSpkDy1yH8hQwFZ");
 pub mod ming_jing {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+    pub fn post_jinzhan(ctx: Context<PostJinZhan>, content: String) -> Result<()> {
+        let jinzhan = &mut ctx.accounts.jinzhan;
+        let author = &ctx.accounts.author;
+        let clock = Clock::get().unwrap();
+
         Ok(())
     }
 }
 
+/// instruction to post a Jin Zhan.
 #[derive(Accounts)]
-pub struct Initialize {}
+pub struct PostJinZhan<'info> {
+    #[account(init, payer = author, space = JinZhan::LEN)]
+    pub jinzhan: Account<'info, JinZhan>,
+    #[account(mut)]
+    pub author: Signer<'info>,
+    pub system_program: Program<'info, System>,
+}
 
-/// Jing Zhan is basic post on Ming Jing, like Tweet on Twitter or Weibo.
+/// Jin Zhan is basic post on Ming Jing, like Tweet on Twitter or Weibo.
 #[account]
-pub struct JingZhan {
+pub struct JinZhan {
     pub author: Pubkey,
     pub timestamp: i64,
     pub content: String,
 }
 
-impl JingZhan {
+impl JinZhan {
+    /// space of a Jin Zhan need.
     const LEN: usize = DISCRIMINATOR_LENGTH
         + PUBLIC_KEY_LENGTH // Author.
         + TIMESTAMP_LENGTH // Timestamp
