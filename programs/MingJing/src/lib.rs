@@ -30,6 +30,14 @@ pub mod ming_jing {
         let author = &ctx.accounts.author;
         let clock = Clock::get().unwrap();
 
+        if content.chars().count() > 280 {
+            return Err(ErrorCode::InvalidContentLength.into());
+        }
+
+        jinzhan.author = *author.key;
+        jinzhan.timestamp = clock.unix_timestamp;
+        jinzhan.content = content;
+
         Ok(())
     }
 }
@@ -58,4 +66,11 @@ impl JinZhan {
         + PUBLIC_KEY_LENGTH // Author.
         + TIMESTAMP_LENGTH // Timestamp
         + STRING_LENGTH_PREFIX + MAX_CONTENT_LENGTH; // Content.
+}
+
+/// Errors
+#[error_code]
+pub enum ErrorCode {
+    #[msg("This jin zhan has too much characters.")]
+    InvalidContentLength,
 }
