@@ -91,4 +91,31 @@ describe("MingJing", () => {
       "Post instruction would fail with a 281-character content Jin Zhan"
     );
   });
+
+  it("can fetch all Jin Zhan.", async () => {
+    const jinZhanAccounts = await program.account.jinZhan.all();
+    assert.equal(jinZhanAccounts.length, 2);
+  });
+
+  it("can filter Jin Zhan by author", async () => {
+    const authorPublicKey = anchor.AnchorProvider.env().wallet.publicKey;
+    const jinZhanAccounts = await program.account.jinZhan.all([
+      {
+        memcmp: {
+          offset: 8,
+          bytes: authorPublicKey.toBase58(),
+        },
+      },
+    ]);
+
+    assert.equal(jinZhanAccounts.length, 1);
+    assert.ok(
+      jinZhanAccounts.every((jinZhanAccount) => {
+        return (
+          jinZhanAccount.account.author.toBase58() ===
+          authorPublicKey.toBase58()
+        );
+      })
+    );
+  });
 });
